@@ -41,7 +41,8 @@
 Для логирования в контейнерах используется Loki, 
 также логи записываются в файлы в папке `youtube_notifier_bot/bot/logging_data/logs`.
 Для визуализации логов используется Grafana. Она доступна по адресу: `http://localhost:3000/`. 
-Для отображения логов в Grafana нужно в Data sources указать Loki и его URL `http://loki:3100/`
+Для отображения логов в Grafana нужно в Data sources указать Loki и его URL `http://loki:3100/`.
+Также по желанию можно указать ссыклу для логирования в Sentry в `dev.env` или `prod.env` 
 
 
 #### Бэкап базы:
