@@ -1,0 +1,47 @@
+[tool.poetry]
+name = "youtube_notifier_bot"
+version = "0.1.0"
+description = ""
+authors = [""]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+aiogram = "^2.25.1"
+httpx = {extras = ["http2"], version = "^0.24.1"}
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.19"}
+greenlet = "^2.0.2"
+alembic = "^1.11.1"
+asyncpg = "^0.28.0"
+pydantic = "^2.1.1"
+pydantic-settings = "^2.0.2"
+python-dotenv = "^1.0.0"
+sentry-sdk = "^1.29.0"
+
+[tool.poetry.group.dev.dependencies]
+black = "^23.7.0"
+isort = "^5.12.0"
+flake8 = "^6.1.0"
+flake8-bugbear = "^23.7.10"
+flake8-pie = "^0.16.0"
+mypy = "^1.4.1"
+
+[tool.black]
+line-length = 90
+target-version = ['py310']
+#extend-exclude = '''
+#(
+#  migrations   # Django DB migrations
+#)
+#'''
+
+[tool.isort]
+profile = "black"
+line_length = 90
+multi_line_output = 3
+skip_gitignore = true
+skip_glob = ["**/migrations/*", "**/versions/*"]
+src_paths = ["./bot"]
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

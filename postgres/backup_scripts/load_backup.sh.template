@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+PATH=/etc:/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin
+
+POSTGRES_HOST=host
+POSTGRES_PORT=port
+
+PGPASSWORD=pg_password
+POSTGRES_USER=pg_user
+
+DATABASE="youtube_notifier_db"
+BACKUP_PATH="/var/lib/postgresql/backup"
+
+BACKUP_FILE_GZ="2023-08-04.sql.gz"
+BACKUP_FILE="2023-08-04.sql"
+
+gunzip "$BACKUP_PATH"/"$BACKUP_FILE_GZ"
+
+export PGPASSWORD
+psql -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USER $DATABASE  < "$BACKUP_PATH"/"$BACKUP_FILE"
+unset PGPASSWORD

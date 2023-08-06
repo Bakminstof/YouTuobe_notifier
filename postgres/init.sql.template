@@ -1,0 +1,24 @@
+DO
+$$
+BEGIN
+   IF NOT EXISTS (SELECT extname FROM pg_catalog.pg_extension WHERE extname = 'dblink')
+   THEN
+     CREATE EXTENSION dblink;
+   END IF;
+
+   IF NOT EXISTS (SELECT FROM pg_database WHERE datname = 'youtube_notifier_db')
+   THEN
+      CREATE ROLE youtube_notifier_bot WITH LOGIN;
+      ALTER USER youtube_notifier_bot WITH PASSWORD 'CHANGE_MEE!!';
+
+      PERFORM dblink_exec(
+      'user=postgres_user password=postgres_password dbname=' || current_database(),
+        'CREATE DATABASE youtube_notifier_db'
+      );
+
+      GRANT ALL ON DATABASE youtube_notifier_db TO youtube_notifier_bot;
+
+      ALTER DATABASE youtube_notifier_db OWNER TO youtube_notifier_bot;
+   END IF;
+END;
+$$
