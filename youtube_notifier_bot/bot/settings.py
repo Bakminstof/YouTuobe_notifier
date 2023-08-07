@@ -8,7 +8,7 @@ ENV_DIR = BASE_DIR / "environment"
 ENV_FILE = ENV_DIR / "prod.env"
 
 # Logging
-LOGLEVEL = "DEBUG" if ENV_FILE.name == "dev.env" else "WARNING"
+LOGLEVEL = "DEBUG" if ENV_FILE.name == "dev.env" else "INFO"
 
 LOGS_DIR = BASE_DIR / "logging_data" / "logs"
 
