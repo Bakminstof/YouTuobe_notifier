@@ -33,7 +33,7 @@
     - PostgresSQL: Всё также как и в Long polling режиме.
     - Nginx: `nginx/` (`nginx.conf` - в разделе 
     `location` `bot_token` заменить на токен бота)
-    - TSL: Запустить `gen_tsl.sh` с указанием хоста вебхука.(Пример `bash gen_tsl.sh 124.55.78.194`)
+    - TLS: Запустить `gen_tls.sh` с указанием хоста вебхука.(Пример `bash gen_tls.sh 124.55.78.194`)
   
   Собрать и поднять все контейнеры: `docker-compose up --build -d`
 
@@ -42,12 +42,13 @@
 также логи записываются в файлы в папке `youtube_notifier_bot/bot/logging_data/logs`.
 Для визуализации логов используется Grafana. Она доступна по адресу: `http://localhost:3000/`. 
 Для отображения логов в Grafana нужно в Data sources указать Loki и его URL `http://loki:3100/`.
-Также по желанию можно указать ссыклу для логирования в Sentry в `dev.env` или `prod.env` 
+Также по желанию можно указать ссылку для логирования в Sentry в `dev.env` или `prod.env` 
 
 
 #### Бэкап базы:
 Для настройки ежедневного бэкапа базы необходимо в `postgres/backup_scripts/` в `do_backup.sh` 
 указать данные для подключения к базе (`POSTGRES_HOST`, `POSTGRES_PORT`, `PGPASSWORD`, `POSTGRES_USER`),
-запустить cron `crontab -e`и добавить туда следующую строку 
-`3 0 * * * docker exec postgres_container bash /var/lib/postgresql/backup_scripts/do_backup.sh`.
-Теперь будет производиться бэкап базы каждую ночь 3 часа.
+запустить cron `sudo crontab -e`и добавить туда следующую строку 
+`3 1 * * * docker exec postgres_container bash /var/lib/postgresql/backup_scripts/do_backup.sh`.
+Теперь будет производиться бэкап базы каждую ночь в 01:03.
+postgres_container bash /var/lib/postgresql/backup_scripts/do_backup_data_only.sh

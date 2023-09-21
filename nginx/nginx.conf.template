@@ -22,11 +22,13 @@ http {
     server {
         server_name bot_r_proxy;
 
-        listen 8443 ssl http2;
+        listen 8443 ssl;
+
+        http2 on;
 
         ssl_protocols       TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
-        ssl_certificate_key TSL/private_key.pem;
-        ssl_certificate     TSL/cert.pem;
+        ssl_certificate_key TLS/private_key.pem;
+        ssl_certificate     TLS/cert.pem;
 
         ssl_prefer_server_ciphers on;
 

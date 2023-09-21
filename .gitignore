@@ -182,9 +182,9 @@ grafana/data
 ideologExported.xml
 
 # My notes
-notes.md
 send_to_server.sh
 exclude-file.txt
 
 ## Custom
 other/
+images/

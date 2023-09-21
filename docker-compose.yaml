@@ -4,7 +4,7 @@ services:
   youtube_notifier_bot:
     container_name: youtube_notifier_bot_container
     build:
-      context: ./youtube_notifier_bot
+      context: ./
       dockerfile: Dockerfile
     restart: always
     logging:
@@ -13,12 +13,14 @@ services:
         loki-url: "http://localhost:3100/loki/api/v1/push"
     #          loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
     volumes:
-      - ./youtube_notifier_bot/bot/logging_data/logs:/bot/logging_data/logs
+      - ./bot/logging_data/logs:/bot/logging_data/logs
+    environment:
+      - ENV_FILE=prod.env
     expose:
       - "4000"
     command:
       - "python"
-      - "bot.py"
+      - "main.py"
     depends_on:
       postgres:
         condition: service_healthy
@@ -92,7 +94,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - ./youtube_notifier_bot/bot/TSL:/etc/nginx/TSL
+      - ./bot/TLS:/etc/nginx/TLS
     ports:
       - "8443:8443"
     networks:
