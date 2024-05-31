@@ -13,10 +13,6 @@ openssl req -new -x509 -nodes -days 3650 -key "$PRIVATE_KEY" -out "$PUBLIC_KEY" 
 
 start
 ```shell
-ENV_DIR=env
-export $(grep -v '^#' "$ENV_DIR/prod.env" | xargs -d '\n')
-export $(grep -v '^#' "$ENV_DIR/db.prod.env" | xargs -d '\n')
-
 docker image build -t nginx_r_proxy ./nginx
 docker image build -t yt_notif_bot ./
 
