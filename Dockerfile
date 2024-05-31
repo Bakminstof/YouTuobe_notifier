@@ -18,14 +18,6 @@ RUN chmod 766 /db
 
 WORKDIR /src
 
-COPY docker_init.sh .
-RUN chmod 755 /src/docker_init.sh
-
 COPY src .
-
-COPY alembic.ini .
-COPY alembic alembic
-
-ENTRYPOINT ["/src/docker_init.sh"]
 
 CMD ["python", "main.py"]
