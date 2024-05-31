@@ -13,7 +13,7 @@ services:
       - ./certs:/certs
       - ./src/log/logs:/src/log/logs
     environment:
-      - ENV_FILE=/env/prod.env
+      - ENV_FILE=/src/env/prod.env
     command:
       - "python"
       - "main.py"
