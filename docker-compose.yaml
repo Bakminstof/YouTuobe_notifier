@@ -1,107 +1,65 @@
-version: '3.4'
+version: "3.8"
 
 services:
-  youtube_notifier_bot:
-    container_name: youtube_notifier_bot_container
+  bot:
+    container_name: yt_notif_bot_con
+    image: yt_notif_bot:latest
     build:
-      context: ./
+      context: .
       dockerfile: Dockerfile
     restart: always
-    logging:
-      driver: loki
-      options:
-        loki-url: "http://localhost:3100/loki/api/v1/push"
-    #          loki-url: "http://host.docker.internal:3100/loki/api/v1/push"
     volumes:
-      - ./bot/logging_data/logs:/bot/logging_data/logs
+      - ./db:/db
+      - ./certs:/certs
+      - ./src/log/logs:/src/log/logs
     environment:
-      - ENV_FILE=prod.env
-    expose:
-      - "4000"
+      - ENV_FILE=/env/prod.env
     command:
       - "python"
       - "main.py"
-    depends_on:
-      postgres:
-        condition: service_healthy
-    networks:
-      - network
-
-  grafana:
-    container_name: grafana_container
-    build:
-      context: ./grafana
-      dockerfile: Dockerfile
-    restart: always
-    environment:
-      - GF_AUTH_ANONYMOUS_ENABLED=True
-      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
-    volumes:
-      - ./grafana/data:/var/lib/grafana
-      - ./grafana/config/grafana.ini:/etc/grafana/grafana.ini
-    ports:
-      - "3000:3000"
-    depends_on:
-      - youtube_notifier_bot
-    networks:
-      - network
-
-  loki:
-    container_name: loki_container
-    build:
-      context: ./loki
-      dockerfile: Dockerfile
-    restart: always
-    ports:
-      - "3100:3100"
-    depends_on:
-      - youtube_notifier_bot
-    networks:
-      - network
-
-  postgres:
-    container_name: postgres_container
-    build:
-      context: ./postgres
-      dockerfile: Dockerfile
-    restart: always
-    env_file:
-      - ./postgres/pg.env
-    ports:
-      - '2000:2000'
-    volumes:
-      - ./postgres/data:/var/lib/postgresql/data
-      - ./postgres/backup:/var/lib/postgresql/backup
-      - ./postgres/backup_scripts:/var/lib/postgresql/backup_scripts
-      - ./postgres/config/:/var/lib/PostgresConfig/
-    command:
-      - "postgres"
-      - "-c"
-      - "config_file=/var/lib/PostgresConfig/postgresql.conf"
-    networks:
-      - network
-    healthcheck:
-      test: [ "CMD", "pg_isready", "-d", "postges", "-p", "2000", "-h", "0.0.0.0" ]
-      interval: 5s
-      timeout: 10s
-      retries: 4
-      start_period: 10s
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+        delay: 10s
+      rollback_config:
+        parallelism: 0
+        order: stop-first
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s
 
   nginx:
-    container_name: nginx_container
+    container_name: nginx_con
+    image: nginx_r_proxy:latest
     build:
       context: ./nginx
       dockerfile: Dockerfile
     restart: always
     volumes:
-      - ./bot/TLS:/etc/nginx/TLS
+      - ./certs:/etc/nginx/TLS
+      - ./nginx/config/nginx.conf:/etc/nginx/nginx.conf
     ports:
+#      - "${WEBHOOK_HOST}:${WEBHOOK_PORT}:8443"
       - "8443:8443"
-    networks:
-      - network
     depends_on:
-      - youtube_notifier_bot
-
-networks:
-  network:
-    driver: bridge
+      - bot
+    deploy:
+      replicas: 1
+      update_config:
+        parallelism: 1
+        order: start-first
+        failure_action: rollback
+        delay: 10s
+      rollback_config:
+        parallelism: 0
+        order: stop-first
+      restart_policy:
+        condition: any
+        delay: 5s
+        max_attempts: 3
+        window: 120s

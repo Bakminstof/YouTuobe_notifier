@@ -123,12 +123,9 @@ celerybeat.pid
 .env
 *.env
 .venv
-env/
 venv/
-ENV/
 env.bak/
 venv.bak/
-ENV_BOT_MK_1/
 
 # Spyder project settings
 .spyderproject
@@ -164,27 +161,15 @@ cython_debug/
 # Certificates
 *.pem
 
-# Database
-*.db
-postgres/backup
-postgres/backup_scripts/do_backup.sh
-postgres/backup_scripts/load_backup.sh
-postgres/data
-postgres/init.sql
-
 # Nginx
 nginx.conf
 
-# Grafana
-grafana/data
+# Database
+*.db
+*.session
+backup.sh
+postgres/data/*
 
-# Logging
-ideologExported.xml
-
-# My notes
-send_to_server.sh
-exclude-file.txt
-
-## Custom
-other/
-images/
+# Local
+notes.md
+cloud-ru/

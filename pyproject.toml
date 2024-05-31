@@ -1,24 +1,22 @@
 [tool.poetry]
-name = "youtube_notifier_bot"
+name = "yt-notif-bot"
 version = "0.1.0"
 description = ""
-authors = [""]
+authors = ["Your Name <you@example.com>"]
+readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.10"
-aiogram = "^2.25.1"
-httpx = {extras = ["http2"], version = "^0.24.1"}
-sqlalchemy = {extras = ["asyncio"], version = "^2.0.19"}
-greenlet = "^2.0.2"
-alembic = "^1.11.1"
-asyncpg = "^0.28.0"
-pydantic = "^2.1.1"
-pydantic-settings = "^2.0.2"
-python-dotenv = "^1.0.0"
-sentry-sdk = "^1.29.0"
+python = "^3.12"
+aiogram = "^3.6.0"
+httpx = {extras = ["http2"], version = "^0.27.0"}
+sqlalchemy = {extras = ["asyncio"], version = "^2.0.30"}
+aiosqlite = "^0.20.0"
+alembic = "^1.13.1"
+pydantic-settings = "^2.1.0"
+pydantic = "2.7.1"
+sentry-sdk = "^2.1.1"
 
 [tool.poetry.group.dev.dependencies]
-black = "^23.7.0"
 isort = "^5.12.0"
 flake8 = "^6.1.0"
 flake8-bugbear = "^23.7.10"
@@ -26,7 +24,6 @@ flake8-pie = "^0.16.0"
 mypy = "^1.4.1"
 pep8-naming = "^0.13.3"
 pylint = "^2.17.5"
-flake8-pylint = "^0.2.0"
 flake8-black = "^0.3.6"
 flake8-use-pathlib = "^0.3.0"
 flake8-print = "^5.0.0"
@@ -44,7 +41,7 @@ flake8-json = "^23.7.0"
 
 [tool.black]
 line-length = 90
-target-version = ['py310']
+target-version = ['py311']
 extend-exclude = '''
 (
   migrations   # Django DB migrations
@@ -57,7 +54,8 @@ line_length = 90
 multi_line_output = 3
 skip_gitignore = true
 skip_glob = ["**/migrations/*", "**/versions/*"]
-src_paths = ["./bot"]
+src_paths = ["./src"]
+
 
 [build-system]
 requires = ["poetry-core"]

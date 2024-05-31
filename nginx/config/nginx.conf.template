@@ -1,0 +1,43 @@
+user  www-data;
+worker_processes  auto;
+
+error_log  /var/log/nginx/error.log notice;
+pid        /var/run/nginx.pid;
+
+events {
+    worker_connections  1024;
+}
+
+http {
+    log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for"';
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile on;
+    keepalive_timeout  65;
+
+
+    server {
+        server_name youtube_notif_bot_r_proxy;
+
+        listen 8443 ssl;
+
+        http2 on;
+
+        ssl_protocols       TLSv1 TLSv1.1 TLSv1.2 TLSv1.3;
+        ssl_certificate_key TLS/notif-bot-private.pem;
+        ssl_certificate     TLS/notif-bot-public.pem;
+
+        ssl_prefer_server_ciphers on;
+
+        location /webhook/BOT_TOKEN_HERE {
+            proxy_set_header Host $http_host;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_redirect off;
+            proxy_buffering off;
+            proxy_pass http://bot:4000;
+        }
+    }
+}
