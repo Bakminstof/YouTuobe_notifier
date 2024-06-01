@@ -1,6 +1,6 @@
 from functools import cached_property
 from pathlib import Path
-from typing import Literal, Any
+from typing import Any, Literal
 
 from pydantic import BaseModel, computed_field, field_validator
 from pydantic_core.core_schema import ValidationInfo

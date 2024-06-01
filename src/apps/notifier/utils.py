@@ -1,8 +1,8 @@
 from asyncio import gather
 
 from apps.notifier.schemas import ChannelModel, ContentType
-from database.models import Video, Stream
-from database.utils import get_video_db, get_stream_db
+from database.models import Stream, Video
+from database.utils import get_stream_db, get_video_db
 from utils.scrapper import get_content_urls
 
 

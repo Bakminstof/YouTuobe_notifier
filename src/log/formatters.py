@@ -1,4 +1,4 @@
-from logging import Formatter, NOTSET, DEBUG, INFO, WARNING, ERROR, CRITICAL, LogRecord
+from logging import CRITICAL, DEBUG, ERROR, INFO, NOTSET, WARNING, Formatter, LogRecord
 
 
 class ColourFormatter(Formatter):

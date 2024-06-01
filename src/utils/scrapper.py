@@ -2,7 +2,6 @@ from logging import getLogger
 from re import search
 
 from apps.notifier.schemas import ContentType
-
 from utils.finder import find_channel_url, find_content_urls
 from utils.http import HTTPManager
 from utils.token_bucket import rate_limit

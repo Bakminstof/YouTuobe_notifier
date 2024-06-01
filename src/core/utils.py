@@ -1,10 +1,9 @@
 from logging import getLogger
-
 from logging.config import dictConfig
-from ssl import SSLContext, PROTOCOL_TLSv1_2
+from ssl import PROTOCOL_TLSv1_2, SSLContext
 from warnings import warn
 
-from aiogram import Dispatcher, Bot
+from aiogram import Bot, Dispatcher
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 from aiohttp import web
 

@@ -1,8 +1,8 @@
-from sqlalchemy import String, MetaData
+from sqlalchemy import MetaData, String
 from sqlalchemy.orm import DeclarativeBase
 
 from core.settings import settings
-from database.mixins import ReprMixin, IDPKMixin
+from database.mixins import IDPKMixin, ReprMixin
 from database.tps import str_200
 
 

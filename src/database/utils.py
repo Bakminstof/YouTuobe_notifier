@@ -1,15 +1,15 @@
-from contextlib import asynccontextmanager, AbstractAsyncContextManager
+from contextlib import AbstractAsyncContextManager, asynccontextmanager
 
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from database.helper import AsyncDatabase
 from database.mixins import AuditMixin
 from database.orm import (
-    ProfileDatabase,
     ChannelsDatabase,
+    ProfileChannelAssociationDatabase,
+    ProfileDatabase,
     StreamDatabase,
     VideoDatabase,
-    ProfileChannelAssociationDatabase,
 )
 from database.triggers import on_update_trigger
 

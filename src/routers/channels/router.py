@@ -2,33 +2,26 @@ import asyncio
 from logging import getLogger
 from re import search
 
-from aiogram import Router, Bot, F
-
+from aiogram import Bot, F, Router
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
-from aiogram.types import Message, CallbackQuery
+from aiogram.types import CallbackQuery, Message
 
+from controllers.message_ctrl import delete_message, edit_message, send_message
+from core.settings import settings
+from database.utils import get_channel_db
+from keyboards.inline.channel_callbacks import ChannelCallback
 from routers.channels.utils import (
-    save_new_channel,
-    save_new_channel_content,
-    get_user_data,
-    update_user_channels,
-    clear_displayed_channels,
-    show_channels,
-    limit_channels,
     channel_subscribe,
     channel_unsubscribe,
+    clear_displayed_channels,
     get_channel,
-)
-from keyboards.inline.channel_callbacks import ChannelCallback
-from controllers.message_ctrl import (
-    send_message,
-    edit_message,
-    delete_message,
-)
-from core.settings import settings
-from database.utils import (
-    get_channel_db,
+    get_user_data,
+    limit_channels,
+    save_new_channel,
+    save_new_channel_content,
+    show_channels,
+    update_user_channels,
 )
 
 logger = getLogger(__name__)

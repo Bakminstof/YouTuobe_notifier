@@ -5,9 +5,9 @@ from aiogram.client.default import DefaultBotProperties
 from aiogram.fsm.storage.memory import MemoryStorage
 
 from core.lifespan import Lifespan
-from routers import start_router, info_router, admin_router, channels_router
 from core.settings import settings
 from core.utils import start_webhook
+from routers import admin_router, channels_router, info_router, start_router
 
 
 def start() -> None:

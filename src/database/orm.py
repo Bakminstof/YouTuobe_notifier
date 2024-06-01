@@ -1,17 +1,11 @@
 from typing import Any, Sequence
 
-from sqlalchemy import select, delete
+from sqlalchemy import delete, select
 from sqlalchemy.orm import load_only, noload
 
 from core.schemas import PaginationResultModel
-from database.mixins import PaginationMixin, CRUDMixin
-from database.models import (
-    Profile,
-    Channel,
-    ProfileChannelAssociation,
-    Video,
-    Stream,
-)
+from database.mixins import CRUDMixin, PaginationMixin
+from database.models import Channel, Profile, ProfileChannelAssociation, Stream, Video
 from database.tps import Status
 
 

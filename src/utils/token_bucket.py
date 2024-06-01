@@ -1,4 +1,4 @@
-from asyncio import get_running_loop, sleep, Lock
+from asyncio import Lock, get_running_loop, sleep
 from functools import wraps
 from logging import getLogger
 

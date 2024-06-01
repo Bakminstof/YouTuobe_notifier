@@ -1,10 +1,10 @@
 from functools import cached_property
-from pathlib import Path
 from os import environ
+from pathlib import Path
 
 from aiogram.enums import ParseMode
 from aiogram.types import FSInputFile
-from pydantic import BaseModel, computed_field, field_validator, ConfigDict
+from pydantic import BaseModel, ConfigDict, computed_field, field_validator
 from pydantic_core.core_schema import ValidationInfo
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import URL

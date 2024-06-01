@@ -1,12 +1,12 @@
-from asyncio import gather, Event, sleep, get_running_loop
+from asyncio import Event, gather, get_running_loop, sleep
 
 from aiogram import Bot
 
 from apps.notifier.schemas import ChannelModel
 from apps.notifier.utils import (
+    check_new_content,
     db_load_ch_content,
     load_content_urls,
-    check_new_content,
     save_new_content,
 )
 from controllers.message_ctrl import send_message

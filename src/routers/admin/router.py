@@ -1,10 +1,10 @@
-from aiogram import Router, Bot
+from aiogram import Bot, Router
 from aiogram.filters import Command
 from aiogram.types import Message
 
 from controllers.message_ctrl import send_message
 from filters import AdminFilter
-from routers.admin.utils import get_profiles, build_user_description
+from routers.admin.utils import build_user_description, get_profiles
 
 router = Router(name="admin")
 

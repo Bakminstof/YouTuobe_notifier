@@ -1,14 +1,13 @@
 from logging import getLogger
 
 from aiogram import Bot
-from aiogram.types import Message, InlineKeyboardMarkup, MessageEntity
-
 from aiogram.exceptions import (
     TelegramBadRequest,
-    TelegramUnauthorizedError,
     TelegramForbiddenError,
     TelegramNetworkError,
+    TelegramUnauthorizedError,
 )
+from aiogram.types import InlineKeyboardMarkup, Message, MessageEntity
 
 from core.settings import settings
 from database.tps import Status
