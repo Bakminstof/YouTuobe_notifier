@@ -27,6 +27,8 @@ def find_channel_url(page: str, from_url: str | None = None) -> str | None:
         strip_text(page),
     )
 
+    return None
+
 
 def find_canonical_url(page: str, from_url: str | None = None) -> str | None:
     """
@@ -41,6 +43,7 @@ def find_canonical_url(page: str, from_url: str | None = None) -> str | None:
         from_url,
         strip_text(page),
     )
+    return None
 
 
 def find_original_url(page: str, from_url: str | None = None) -> str | None:
@@ -56,6 +59,7 @@ def find_original_url(page: str, from_url: str | None = None) -> str | None:
         from_url,
         strip_text(page),
     )
+    return None
 
 
 def find_channel_name(
@@ -74,6 +78,7 @@ def find_channel_name(
         from_url,
         strip_text(channel_page),
     )
+    return None
 
 
 def find_content_urls(

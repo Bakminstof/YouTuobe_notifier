@@ -16,7 +16,7 @@ logger = getLogger(__name__)
 
 class AsyncDatabase:
     def __init__(self) -> None:
-        self._engine_url: URL | str | None = None
+        self._engine_url: URL | None = None
         self._async_engine: AsyncEngine | None = None
         self._async_sessionmaker: async_sessionmaker[AsyncSession] | None = None
 

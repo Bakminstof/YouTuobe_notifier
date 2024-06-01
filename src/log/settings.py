@@ -50,10 +50,10 @@ class LoggingSettings(BaseModel):
         info: ValidationInfo,
         **kwargs,
     ) -> Path:
-        value = Path(value)
+        path = Path(value)
 
-        if value.root == "/":
-            return value
+        if path.root == "/":
+            return path
 
         return Path(__file__).parent / value
 

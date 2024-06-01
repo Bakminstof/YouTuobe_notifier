@@ -56,6 +56,8 @@ class DBSettings(BaseModel):
         if "sqlite" in info.data.get("drivername"):
             return (BASE_DIR.parent / "db" / value).absolute().as_posix()
 
+        return value
+
     @field_validator(
         "user",
         "password",

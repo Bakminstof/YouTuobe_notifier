@@ -1,16 +1,15 @@
 from copy import deepcopy
 from random import choice
-from typing import Dict, List, Tuple
 
 
 class Headers:
-    def __init__(self, options: Dict[str, str] | None = None) -> None:
+    def __init__(self, options: dict[str, str] | None = None) -> None:
         self.options = options or {}
 
-        self.chrome_version: Tuple[str, str] | None = None
+        self.chrome_version: tuple[str, str] | None = None
 
         # sec-ch-ua
-        self.sec_ch_ua_conf: Dict | None = None
+        self.sec_ch_ua_conf: dict | None = None
 
         self.sec_ch_ua: str | None = None
         self.sec_ch_ua_full_version: str | None = None
@@ -26,12 +25,12 @@ class Headers:
         self.user_agent: str | None = None
 
     @property
-    def headers(self) -> Dict[str, str]:
+    def headers(self) -> dict[str, str]:
         return self.options
 
 
 class ChromeHeadersBuilder:
-    CHROME_VERSIONS: Dict[str, List[str]] = {
+    CHROME_VERSIONS: dict[str, list[str]] = {
         "100": [
             "100.0.4896.127",  # ~  04-2022
             "100.0.4896.143",  # ~  04-2022
@@ -109,20 +108,18 @@ class ChromeHeadersBuilder:
             "114.0.5735.133",  # ~  06-2023
             "114.0.5735.198",  # ~  06-2023
         ],
-        "123": [
-            "123.0.6312.105"
-        ]
+        "123": ["123.0.6312.105"],
     }
 
     # sec-ch-ua
     __SEC_CH_UA_BASE_POS: str = "{}, {}, {}"
-    __SEC_CH_UA_ITEMS: Dict[int, str] = {
+    __SEC_CH_UA_ITEMS: dict[int, str] = {
         1: '"Chromium";v="{v}"',
         2: '"Google Chrome";v="{v}"',
         3: '"Not{spec_1}A{spec_2}Brand";v="{v}"',
     }
-    __SEC_CH_UA_PLATFORM: List[str] = ["Linux", "Windows"]
-    __SEC_CH_UA_PLATFORM_VERSION: Dict[str, List[str]] = {  # OS versions numbers
+    __SEC_CH_UA_PLATFORM: list[str] = ["Linux", "Windows"]
+    __SEC_CH_UA_PLATFORM_VERSION: dict[str, list[str]] = {  # OS versions numbers
         "Linux": [
             "6.5.0",
             "6.4.0",
@@ -138,10 +135,10 @@ class ChromeHeadersBuilder:
         ],
         "Windows": ["13.0.0", "10.0.0"],
     }
-    __SEC_CH_UA_ARCH: List[str] = ["x86"]
-    __SEC_CH_UA_BITNESS: List[str] = ["64", "32"]
-    __SEC_CH_UA_MODEL: List[str] = ['""']
-    __SEC_CH_UA_MOBILE: List[str] = [
+    __SEC_CH_UA_ARCH: list[str] = ["x86"]
+    __SEC_CH_UA_BITNESS: list[str] = ["64", "32"]
+    __SEC_CH_UA_MODEL: list[str] = ['""']
+    __SEC_CH_UA_MOBILE: list[str] = [
         "?0",
         # '?1',
     ]
@@ -150,18 +147,18 @@ class ChromeHeadersBuilder:
     __USER_AGENT_STRING: str = (
         "Mozilla/5.0 ({system_information}) {platform} ({platform_details}) {extensions}"
     )
-    __USER_AGENT_SYSTEM_INFORMATION: Dict[str, Dict[str, str] | Dict[str, str]] = {
+    __USER_AGENT_SYSTEM_INFORMATION: dict[str, dict[str, str] | dict[str, str]] = {
         "Linux": {"64": "X11; Linux x86_64", "32": "X11; Linux x86_64"},
         "Windows": {
             "64": "Windows NT 10.0; Win64; x64",
             "32": "Windows NT 10.0",
         },
     }
-    __USER_AGENT_PLATFORM: Tuple[str, str] = ("AppleWebKit", "537.36")
+    __USER_AGENT_PLATFORM: tuple[str, str] = ("AppleWebKit", "537.36")
     __USER_AGENT_PLATFORM_DETAILS: str = "KHTML, like Gecko"
     __USER_AGENT_EXTENSIONS: str = "Chrome/{chrome_v}.0.0.0 Safari/{safari_v}"
 
-    def __random_chrome_version(self) -> Tuple[str, str]:
+    def __random_chrome_version(self) -> tuple[str, str]:
         ver_num = choice(list(self.CHROME_VERSIONS.keys()))
         ver_val = choice(self.CHROME_VERSIONS.get(ver_num))
 
@@ -174,7 +171,7 @@ class ChromeHeadersBuilder:
         )
 
     @classmethod
-    def __random_pick(cls, array: List, remove: bool = True) -> str:
+    def __random_pick(cls, array: list, remove: bool = True) -> str | int:
         item = choice(array)
 
         if remove:
@@ -183,7 +180,7 @@ class ChromeHeadersBuilder:
         return item
 
     @classmethod
-    def __not_a_brand__random(cls) -> Tuple[str, str, str, str]:
+    def __not_a_brand__random(cls) -> tuple[str, str, str, str]:
         # 8 = './'
         # 99 = '_ ' ':-' ' :' ' ;'
         # 24 = '-.' '=?'
@@ -213,7 +210,7 @@ class ChromeHeadersBuilder:
 
         return v, v_full, spec_1, spec_2
 
-    def __sec_ch_ua_conf__random(self) -> Dict:
+    def __sec_ch_ua_conf__random(self) -> dict:
         keys = list(self.__SEC_CH_UA_ITEMS.keys())
 
         return {
@@ -229,7 +226,7 @@ class ChromeHeadersBuilder:
     def __sec_ch_ua_full_version__random(cls, item: Headers) -> str:
         return f"{item.chrome_version[1]}"
 
-    def __positioning(self, position: int, item: Headers) -> Tuple[str, str, str]:
+    def __positioning(self, position: int, item: Headers) -> tuple[str, str, str]:
         sec_ch_ua_items = deepcopy(self.__SEC_CH_UA_ITEMS)
 
         sec_ch_ua_items[1] = sec_ch_ua_items.get(1).format(
@@ -319,7 +316,7 @@ class ChromeHeadersBuilder:
         """
         item.options["user-agent"] = item.user_agent
 
-    def randomize_headers(self, headers: Headers) -> Dict[str, str]:
+    def randomize_headers(self, headers: Headers) -> dict[str, str]:
         return self.__randomize(headers).headers
 
     def __randomize(self, item: Headers) -> Headers:

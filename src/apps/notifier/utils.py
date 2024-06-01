@@ -14,9 +14,7 @@ async def db_load_ch_content(channel_models: list[ChannelModel]) -> None:
 
 async def _db_load_ch_content(ch_model: ChannelModel) -> None:
     ch_model.db_videos = [video.url for video in await db_load_ch_videos(ch_model.id)]
-    ch_model.db_streams = [
-        stream.url for stream in await db_load_ch_streams(ch_model.id)
-    ]
+    ch_model.db_streams = [stream.url for stream in await db_load_ch_streams(ch_model.id)]
 
 
 async def db_load_ch_videos(channel_id: int) -> list[Video]:
@@ -104,7 +102,8 @@ async def save_new_content(channel_models: list[ChannelModel]) -> None:
 
 
 async def save_videos_urls(
-    channel_id: int, video_urls: list[str] | set[str]
+    channel_id: int,
+    video_urls: list[str] | set[str],
 ) -> list[Video]:
     async with get_video_db() as video_db:
         videos = [Video(url=url, channel_id=channel_id) for url in video_urls]
@@ -113,7 +112,8 @@ async def save_videos_urls(
 
 
 async def save_streams_urls(
-    channel_id: int, stream_urls: list[str] | set[str]
+    channel_id: int,
+    stream_urls: list[str] | set[str],
 ) -> list[Stream]:
     async with get_stream_db() as stream_db:
         streams = [Stream(url=url, channel_id=channel_id) for url in stream_urls]
