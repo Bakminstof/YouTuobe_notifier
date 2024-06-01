@@ -9,7 +9,7 @@ from pydantic_core.core_schema import ValidationInfo
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from sqlalchemy import URL
 
-from log.config import LoggingSettings
+from log.settings import LoggingSettings
 
 BASE_DIR = Path(__file__).parent.parent
 ENV_DIR = BASE_DIR / "env"
