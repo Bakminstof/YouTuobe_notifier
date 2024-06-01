@@ -1,5 +1,6 @@
 from asyncio import get_running_loop
 from logging import getLogger
+
 from aiogram import Bot
 from aiogram.types.bot_command import BotCommand
 
@@ -64,11 +65,15 @@ class Lifespan:
         )
         await set_triggers()
 
-        await self._delete_webhook()
         await self.set_bot_command()
 
         loop = get_running_loop()
         loop.create_task(self.notifier.start())
+
+        webhook_info = await self.bot.get_webhook_info()
+
+        if webhook_info.url:
+            await self._delete_webhook()
 
         if settings.webhook.active:
             await self._set_webhook()
