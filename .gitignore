@@ -174,3 +174,4 @@ postgres/data/*
 notes.md
 .flake8
 cloud-ru/
+images/
