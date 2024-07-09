@@ -205,3 +205,13 @@ async def __build_new_channel(channel_page: str, url: str) -> Channel | None:
         url=original_url,
         canonical_url=canonical_url,
     )
+
+
+async def bad_url(bot: Bot, message: Message) -> None:
+    await send_message(
+        bot=bot,
+        chat_id=message.chat.id,
+        user_tg_id=message.from_user.id,
+        text=f"Не могу распознать ссылку {settings.bot_msg_utils.smiles['sad_face']}",
+    )
+    return

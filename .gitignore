@@ -165,7 +165,7 @@ cython_debug/
 nginx.conf
 
 # Database
-*.db
+#*.db
 *.session
 backup.sh
 postgres/data/*

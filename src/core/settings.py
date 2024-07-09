@@ -212,7 +212,11 @@ class BotMessageUtils(BaseModel):
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="app.",
-        env_file=(f"{ENV_DIR / '.env.template'}", environ["ENV_FILE"]),
+        env_file=(
+            f"{ENV_DIR / '.env.template'}",
+            f"{ENV_DIR / '.env'}",
+            environ["ENV_FILE"],
+        ),
         case_sensitive=False,
         env_nested_delimiter=".",
         env_file_encoding="UTF-8",

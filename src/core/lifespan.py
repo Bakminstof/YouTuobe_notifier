@@ -32,8 +32,8 @@ class Lifespan:
         )
 
         logger.info(
-            "Set webhook: %s",
-            settings.webhook.url(settings.bot_token),
+            "Set webhook at: %s",
+            settings.webhook.url(settings.webhook.host),
         )
 
     async def set_bot_command(self) -> None:

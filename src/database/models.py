@@ -35,7 +35,7 @@ class Channel(Base, AuditMixin):
     repr_cols = ("name", "url")
 
     name: Mapped[str_200]
-    url: Mapped[str_200] = mapped_column(unique=True)
+    url: Mapped[str_200]
     canonical_url: Mapped[str_200]
 
     # =============================|Profiles relationship|============================== #
@@ -82,7 +82,7 @@ class Video(Base, AuditMixin):
 
     repr_cols = ("id", "url")
 
-    url: Mapped[str_200] = mapped_column(unique=True)
+    url: Mapped[str_200]
 
     # ==============================|Channel relationship|============================== #
     channel_id: Mapped[int] = mapped_column(ForeignKey("channel.id"))

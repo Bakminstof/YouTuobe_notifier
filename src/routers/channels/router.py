@@ -12,6 +12,7 @@ from core.settings import settings
 from database.utils import get_channel_db
 from keyboards.inline.channel_callbacks import ChannelCallback
 from routers.channels.utils import (
+    bad_url,
     channel_subscribe,
     channel_unsubscribe,
     clear_displayed_channels,
@@ -48,16 +49,13 @@ async def get_channels(message: Message, bot: Bot, state: FSMContext) -> None:
 
 @router.message()
 async def add_channel(message: Message, bot: Bot, state: FSMContext) -> None:
+    if not message.text:
+        return await bad_url(bot, message)
+
     raw_url = search("https://.*", message.text)
 
     if not raw_url:
-        await send_message(
-            bot=bot,
-            chat_id=message.chat.id,
-            user_tg_id=message.from_user.id,
-            text=f"Не могу распознать ссылку {settings.bot_msg_utils.smiles['sad_face']}",
-        )
-        return
+        return await bad_url(bot, message)
 
     raw_url = raw_url.group()
 
@@ -100,7 +98,11 @@ async def add_channel(message: Message, bot: Bot, state: FSMContext) -> None:
     await update_user_channels(message.from_user.id, state)
     await delete_message(msg=wait_mes)
     await show_channels(
-        bot, message.chat.id, message.from_user.id, state, channels=[channel]
+        bot,
+        message.chat.id,
+        message.from_user.id,
+        state,
+        channels=[channel],
     )
 
 

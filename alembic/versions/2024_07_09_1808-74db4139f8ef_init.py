@@ -1,8 +1,8 @@
 """Init
 
-Revision ID: 9efc860036a8
+Revision ID: 74db4139f8ef
 Revises: 
-Create Date: 2024-04-29 12:03:27.413383
+Create Date: 2024-07-09 18:08:21.542738
 
 """
 
@@ -13,7 +13,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = "9efc860036a8"
+revision: str = "74db4139f8ef"
 down_revision: Union[str, None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -38,8 +38,7 @@ def upgrade() -> None:
             server_default=sa.text("(CURRENT_TIMESTAMP)"),
             nullable=False,
         ),
-        sa.PrimaryKeyConstraint("id"),
-        sa.UniqueConstraint("url"),
+        sa.PrimaryKeyConstraint("id", name=op.f("pk_channel")),
     )
     op.create_table(
         "profile",
@@ -72,7 +71,7 @@ def upgrade() -> None:
             server_default=sa.text("(CURRENT_TIMESTAMP)"),
             nullable=False,
         ),
-        sa.PrimaryKeyConstraint("id"),
+        sa.PrimaryKeyConstraint("id", name=op.f("pk_profile")),
     )
     op.create_table(
         "profile_channel_association",
@@ -94,12 +93,14 @@ def upgrade() -> None:
         sa.ForeignKeyConstraint(
             ["channel_id"],
             ["channel.id"],
+            name=op.f("fk_profile_channel_association_channel_id_channel"),
         ),
         sa.ForeignKeyConstraint(
             ["profile_id"],
             ["profile.id"],
+            name=op.f("fk_profile_channel_association_profile_id_profile"),
         ),
-        sa.PrimaryKeyConstraint("id"),
+        sa.PrimaryKeyConstraint("id", name=op.f("pk_profile_channel_association")),
         sa.UniqueConstraint(
             "profile_id",
             "channel_id",
@@ -124,11 +125,10 @@ def upgrade() -> None:
             nullable=False,
         ),
         sa.ForeignKeyConstraint(
-            ["channel_id"],
-            ["channel.id"],
+            ["channel_id"], ["channel.id"], name=op.f("fk_stream_channel_id_channel")
         ),
-        sa.PrimaryKeyConstraint("id"),
-        sa.UniqueConstraint("url"),
+        sa.PrimaryKeyConstraint("id", name=op.f("pk_stream")),
+        sa.UniqueConstraint("url", name=op.f("uq_stream_url")),
     )
     op.create_table(
         "video",
@@ -148,11 +148,10 @@ def upgrade() -> None:
             nullable=False,
         ),
         sa.ForeignKeyConstraint(
-            ["channel_id"],
-            ["channel.id"],
+            ["channel_id"], ["channel.id"], name=op.f("fk_video_channel_id_channel")
         ),
-        sa.PrimaryKeyConstraint("id"),
-        sa.UniqueConstraint("url"),
+        sa.PrimaryKeyConstraint("id", name=op.f("pk_video")),
+        sa.UniqueConstraint("url", name=op.f("uq_video_url")),
     )
 
 

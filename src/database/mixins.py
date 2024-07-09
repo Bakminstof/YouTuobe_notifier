@@ -121,7 +121,7 @@ class PaginationMixin(CRUDMixin):
     @classmethod
     async def _get_paginated_result(
         cls, db_method, total_pages: int, **load_options
-    ) -> AsyncGenerator[Sequence[Any], None]:
+    ) -> AsyncGenerator[PaginationResultModel, None]:
         for page in range(2, total_pages + 1):
             load_options.update({"page": page})
             yield await db_method(**load_options)
@@ -156,4 +156,4 @@ class PaginationMixin(CRUDMixin):
         async for paginated_result in self._get_paginated_result(
             db_method, total_pages, **load_options
         ):
-            yield paginated_result
+            yield paginated_result.data.all()
