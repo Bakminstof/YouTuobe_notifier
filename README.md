@@ -24,7 +24,8 @@ openssl req -new -x509 -nodes -days 3650 -key "$PRIVATE_KEY" -out "$PUBLIC_KEY" 
 разного регистра и символа подчеркивания (a-zA-Z_). 
  
 
-Далее остаётся только собрать и запустить docker-контейнеры:
+Далее остаётся только собрать и запустить docker-контейнеры(если бот в режиме __long polling__, то не нужно создавать
+образ и контейнер для __Nginx__):
 ```shell
 docker image build -t nginx_r_proxy ./nginx
 docker image build -t yt_notif_bot ./
