@@ -2,7 +2,7 @@ from asyncio import Event, gather, get_running_loop, sleep
 
 from aiogram import Bot
 
-from apps.notifier.schemas import ChannelModel
+from apps.notifier.models import ChannelModel
 from apps.notifier.utils import (
     check_new_content,
     db_load_ch_content,
@@ -11,7 +11,7 @@ from apps.notifier.utils import (
 )
 from controllers.message_ctrl import send_message
 from core.settings import settings
-from database.models import Channel, ProfileChannelAssociation
+from database.schemas import Channel, ProfileChannelAssociation
 from database.utils import get_channel_db
 
 

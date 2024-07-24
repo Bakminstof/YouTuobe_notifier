@@ -7,11 +7,11 @@ from aiogram.types import Message
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import load_only
 
-from apps.notifier.schemas import ContentType, UserFSMmodel
+from apps.notifier.models import ContentType, UserFSMmodel
 from apps.notifier.utils import save_streams_urls, save_videos_urls
 from controllers.message_ctrl import delete_message, edit_message, send_message
 from core.settings import settings
-from database.models import Channel, Profile, ProfileChannelAssociation
+from database.schemas import Channel, Profile, ProfileChannelAssociation
 from database.utils import get_channel_db, get_prof_ch_association_db, get_profile_db
 from keyboards.inline.channel_keyboards import sub_keyboard, unsub_keyboard
 from utils.finder import find_canonical_url, find_channel_name, find_original_url

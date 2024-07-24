@@ -3,7 +3,7 @@ from enum import StrEnum, auto
 from aiogram.types import Message
 from pydantic import BaseModel, ConfigDict
 
-from database.models import Channel, Profile
+from database.schemas import Channel, Profile
 
 
 class UserFSMmodel(BaseModel):

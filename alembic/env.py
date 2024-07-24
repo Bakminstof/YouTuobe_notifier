@@ -11,7 +11,7 @@ from sqlalchemy.engine import Connection
 from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from core.settings import settings
-from database.models import Base
+from database.schemas import Base
 
 ctx_var: ContextVar[dict[str, Any]] = ContextVar("ctx_var")
 

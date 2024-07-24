@@ -4,7 +4,7 @@ from sqlalchemy import ScalarResult, Select, Table, func, select, update
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import Mapped, mapped_column
 
-from core.schemas import PaginationModel, PaginationResultModel
+from core.models import PaginationModel, PaginationResultModel
 from database.tps import created_at, updated_at
 
 DEFAULT_LIMIT: int = 200

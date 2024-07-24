@@ -6,7 +6,7 @@ from sqlalchemy.orm import load_only
 
 from controllers.message_ctrl import send_message
 from core.settings import settings
-from database.models import Profile
+from database.schemas import Profile
 from database.tps import Status
 from database.utils import get_profile_db
 
