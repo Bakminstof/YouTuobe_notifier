@@ -18,7 +18,10 @@ logger = getLogger(__name__)
 
 
 @rate_limit("Telegram")
-async def delete_message(message: Message) -> bool:
+async def delete_message(message: Message | None) -> bool:
+    if message is None:
+        return False
+
     logger.info(
         "Try delete message. "
         '(message_id="%s" | sender_tg_id="%s" | chat_id="%s" | text="%s")',
@@ -58,12 +61,15 @@ async def delete_message(message: Message) -> bool:
 
 @rate_limit("Telegram")
 async def edit_message(
-    message: Message,
+    message: Message | None,
     text: str,
     entities: list[MessageEntity] | None = None,
     reply_markup: InlineKeyboardMarkup | None = None,
     disable_web_page_preview: bool = False,
 ) -> Message | None:
+    if message is None:
+        return
+
     logger.info(
         "Try edit message. "
         '(message_id="%s" | sender_tg_id="%s" | chat_id="%s" | text="%s")',

@@ -80,7 +80,7 @@ async def clear_displayed_channels(tg_id: int, state: FSMContext) -> None:
     user_data: UserFSMmodel = await get_user_data(tg_id, state)
 
     for message, channel in user_data.displayed_channels.values():
-        await delete_message(msg=message)
+        await delete_message(message)
 
     user_data.displayed_channels.clear()
     await state.set_data({str(tg_id): user_data})

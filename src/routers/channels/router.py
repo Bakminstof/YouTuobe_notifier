@@ -96,7 +96,7 @@ async def add_channel(message: Message, bot: Bot, state: FSMContext) -> None:
             loop.create_task(save_new_channel_content(channel))
 
     await update_user_channels(message.from_user.id, state)
-    await delete_message(msg=wait_mes)
+    await delete_message(wait_mes)
     await show_channels(
         bot,
         message.chat.id,
@@ -112,7 +112,8 @@ async def subscribe(call: CallbackQuery, state: FSMContext) -> None:
     channel_data = user_data.displayed_channels.get(call.message.message_id)
 
     if not channel_data:
-        return await delete_message(msg=call.message)
+        await delete_message(call.message)
+        return
 
     message, channel = channel_data
     profile = user_data.profile
@@ -130,6 +131,7 @@ async def unsubscribe(call: CallbackQuery, state: FSMContext) -> None:
     channel_data = user_data.displayed_channels.get(call.message.message_id)
 
     if not channel_data:
-        return await delete_message(msg=call.message)
+        await delete_message(call.message)
+        return
 
     await channel_unsubscribe(channel_data[0], channel_data[1], user_data.profile, state)
