@@ -10,6 +10,7 @@ from apps.notifier.utils import (
     save_new_content,
 )
 from controllers.message_ctrl import send_message
+from core.models import Smiles
 from core.settings import settings
 from database.schemas import Channel, ProfileChannelAssociation
 from database.utils import get_channel_db
@@ -121,14 +122,13 @@ class Notifier:
             content_url = self.YOUTUBE_BASE_URL + content_part
 
             content_mes = (
-                f"<b><i>{settings.bot_msg_utils.smiles['orange_play']} Смотреть: "
-                f"{content_url}</i></b>"
+                f"<b><i>{Smiles.orange_play} Смотреть: " f"{content_url}</i></b>"
             )
             content_msgs.append(content_mes)
 
         content = "\n\n".join(content_msgs)
         return (
-            f"{settings.bot_msg_utils.smiles['blue_ok']} <b><i>~ {channel_name} ~"
+            f"{Smiles.blue_ok} <b><i>~ {channel_name} ~"
             "\n\nНовый контент!"
             f"\n\n{content}</i></b>"
         )

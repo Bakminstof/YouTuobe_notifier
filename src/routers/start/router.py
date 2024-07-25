@@ -3,7 +3,7 @@ from aiogram.filters import CommandStart
 from aiogram.types import Message
 
 from controllers.message_ctrl import send_message
-from core.settings import settings
+from core.models import UtilMessages, Smiles
 from routers.start.utils import check_user
 
 router = Router(name="start")
@@ -17,18 +17,17 @@ async def start(message: Message, bot: Bot) -> None:
         bot=bot,
         chat_id=message.chat.id,
         user_tg_id=message.from_user.id,
-        text=f"Доброго времени суток, {message.from_user.first_name}! "
-        f"{settings.bot_msg_utils.smiles['hi']}",
+        text=f"Доброго времени суток, {message.from_user.first_name}! {Smiles.hi}",
     )
     await send_message(
         bot=bot,
         chat_id=message.chat.id,
         user_tg_id=message.from_user.id,
-        text=settings.bot_msg_utils.messages["how_work"],
+        text=UtilMessages.how_work,
     )
     await send_message(
         bot=bot,
         chat_id=message.chat.id,
         user_tg_id=message.from_user.id,
-        text=settings.bot_msg_utils.messages["what_send"],
+        text=UtilMessages.what_send,
     )

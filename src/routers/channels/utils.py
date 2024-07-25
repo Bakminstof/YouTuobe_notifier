@@ -10,6 +10,7 @@ from sqlalchemy.orm import load_only
 from apps.notifier.models import ContentType, UserFSMmodel
 from apps.notifier.utils import save_streams_urls, save_videos_urls
 from controllers.message_ctrl import delete_message, edit_message, send_message
+from core.models import Smiles
 from core.settings import settings
 from database.schemas import Channel, Profile, ProfileChannelAssociation
 from database.utils import get_channel_db, get_prof_ch_association_db, get_profile_db
@@ -108,8 +109,8 @@ async def show_channels(
             bot=bot,
             chat_id=chat_id,
             user_tg_id=tg_id,
-            text=f"<i><b>{settings.bot_msg_utils.smiles['green_ok']} ~ {channel.name} ~\n\n"
-            f"YouTube: {settings.bot_msg_utils.smiles['r_arrow']} {channel.url}</b></i>",
+            text=f"<i><b>{Smiles.green_ok} ~ {channel.name} ~\n\n"
+            f"YouTube: {Smiles.r_arrow} {channel.url}</b></i>",
             reply_markup=unsub_keyboard,
             disable_web_page_preview=True,
         )
@@ -122,8 +123,7 @@ async def show_channels(
 async def limit_channels(message_to_edit: Message) -> None:
     await edit_message(
         msg=message_to_edit,
-        text=f"{settings.bot_msg_utils.smiles['stop']} "
-        f"У вас лимит подписок {settings.bot_msg_utils.smiles['stop']}",
+        text=f"{Smiles.stop} " f"У вас лимит подписок {Smiles.stop}",
     )
 
 
@@ -135,7 +135,7 @@ async def channel_subscribe(
 ) -> None:
     await edit_message(
         msg=message,
-        text=f"<b><i>{settings.bot_msg_utils.smiles['green_ok']}{message.text[1:]}</i></b>",
+        text=f"<b><i>{Smiles.green_ok}{message.text[1:]}</i></b>",
         reply_markup=unsub_keyboard,
         disable_web_page_preview=True,
     )
@@ -164,7 +164,7 @@ async def channel_unsubscribe(
 ) -> None:
     await edit_message(
         msg=message,
-        text=f"<b><i>{settings.bot_msg_utils.smiles['no']}{message.text[1:]}</i></b>",
+        text=f"<b><i>{Smiles.no}{message.text[1:]}</i></b>",
         reply_markup=sub_keyboard,
         disable_web_page_preview=True,
     )
@@ -212,6 +212,6 @@ async def bad_url(bot: Bot, message: Message) -> None:
         bot=bot,
         chat_id=message.chat.id,
         user_tg_id=message.from_user.id,
-        text=f"Не могу распознать ссылку {settings.bot_msg_utils.smiles['sad_face']}",
+        text=f"Не могу распознать ссылку {Smiles.sad_face}",
     )
     return

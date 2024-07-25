@@ -162,53 +162,6 @@ class WebhookSettings(BaseModel):
         return f"{self.host}:{self.port}{self.path(bot_token)}"
 
 
-class BotMessageUtils(BaseModel):
-    smiles: dict = {
-        "no": "\U0000274C",  # ~            ❌
-        "green_ok": "\U00002705",  # ~      ✅
-        "blue_ok": "\U00002611",  # ~       ✅
-        "hi": "\U0001F44B",  # ~            👋
-        "r_arrow": "\U000027A1",  # ~       ➡
-        "hand": "\U0001F9BE",  # ~          🦾
-        "sad_face": "\U0001F61E",  # ~      😞
-        "stone_face": "\U0001F5FF",  # ~    🗿
-        "orange_play": "\U000025B6",  # ~   🔽 ->
-        "question": "\U00002753",  # ~      ❓
-        "stop": "\U0001F6A7",  # ~          🚧
-        "medium_bs": "\U000025FC",  # ~     ◼
-        "gear": "\U00002699",  # ~          ⚙
-        "block": "\U000026D4",  # ~         ⛔
-        "skull": "\U0001F480",  # ~         💀
-        "ban": "\U0001F6D1",  # ~           🛑
-        "lifebuoy": "\U0001F6DF",  # ~      🛟
-    }
-
-    messages: dict = {
-        "how_work": (
-            f"{smiles['question']} Как бот работает?\n\n"
-            "При появлении нового контента на канале бот "
-            "присылает Вам уведомление"
-        ),
-        "what_send": (
-            f"{smiles['question']} Что отправить, чтобы подписаться "
-            "на уведомления о новом контенте с канала?\n\n"
-            f"{smiles['blue_ok']} Ссылку на сам канал. К примеру:\n"
-            f"{smiles['r_arrow']} https://www.youtube.com/@twentyonepilots\n"
-            f"{smiles['r_arrow']} https://www.youtube.com/channel/UCfM3zsQsOnfWNUppiycmBuw"
-        ),
-        "info": (
-            f"{smiles['question']} <b>Список доступных команд:</b>\n\n"
-            "/start - <i>запуск бота</i>\n\n"
-            "/channels - <i>список каналов</i>\n\n"
-            "/info - <i>информация</i>\n\n"
-        ),
-        "admin": (
-            f"{smiles['gear']} <b>Команды администрирования:</b> {smiles['gear']}\n\n"
-            "/users - <i>список пользователей</i>\n\n"
-        ),
-    }
-
-
 class Settings(BaseSettings):
     model_config = SettingsConfigDict(
         env_prefix="app.",
@@ -231,14 +184,11 @@ class Settings(BaseSettings):
     admins: list[int]
     parse_mod: str = ParseMode.HTML
 
-    bot_msg_utils: BotMessageUtils = BotMessageUtils()
-
     support: str | None = None
 
     rate_limits: dict[str, int] = {"YouTube": 7, "Telegram": 35}
 
     requests_timeout: int = 10
-
     # ====================================|Webhook|===================================== #
     webhook: WebhookSettings
     # ====================================|Database|==================================== #

@@ -8,6 +8,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from controllers.message_ctrl import delete_message, edit_message, send_message
+from core.models import Smiles
 from core.settings import settings
 from database.utils import get_channel_db
 from keyboards.inline.channel_callbacks import ChannelCallback
@@ -66,7 +67,7 @@ async def add_channel(message: Message, bot: Bot, state: FSMContext) -> None:
         bot=bot,
         chat_id=message.chat.id,
         user_tg_id=message.from_user.id,
-        text=f"Дайте-ка подумать... {settings.bot_msg_utils.smiles['stone_face']}",
+        text=f"Дайте-ка подумать... {Smiles.stone_face}",
     )
 
     if len(user_data.channels) >= profile.subs_limit:
@@ -81,7 +82,7 @@ async def add_channel(message: Message, bot: Bot, state: FSMContext) -> None:
         if channel is None:
             await edit_message(
                 msg=wait_mes,
-                text=f"Не могу найти канал {settings.bot_msg_utils.smiles['sad_face']}. "
+                text=f"Не могу найти канал {Smiles.sad_face}. "
                 f"Попробуйте другую ссылку",
             )
             return

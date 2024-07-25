@@ -5,6 +5,7 @@ from aiogram import Bot
 from sqlalchemy.orm import load_only
 
 from controllers.message_ctrl import send_message
+from core.models import Smiles
 from core.settings import settings
 from database.schemas import Profile
 from database.tps import Status
@@ -34,15 +35,15 @@ def build_user_description(
     user_profile: Profile,
 ) -> str:
     if user_profile.status is Status.active:
-        status = settings.bot_msg_utils.smiles["green_ok"]
+        status = Smiles.green_ok
     elif user_profile.status is Status.blocked:
-        status = settings.bot_msg_utils.smiles["block"]
+        status = Smiles.block
     elif user_profile.status is Status.banned:
-        status = settings.bot_msg_utils.smiles["ban"]
+        status = Smiles.ban
     else:
-        status = settings.bot_msg_utils.smiles["skull"]
+        status = Smiles.skull
 
-    user = f"{settings.bot_msg_utils.smiles['medium_bs']} {status} { user_profile.first_name}"
+    user = f"{Smiles.medium_bs} {status} {user_profile.first_name}"
     auth_timestamp = f"<i>{user_profile.auth_timestamp.strftime('%Y-%m-%d %H:%M:%S')}</i>"
     return f"<b>{user} {auth_timestamp}</b>"
 

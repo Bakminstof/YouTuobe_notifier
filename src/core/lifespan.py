@@ -5,6 +5,7 @@ from aiogram import Bot
 from aiogram.types.bot_command import BotCommand
 
 from apps.notifier.main import Notifier
+from core.models import Smiles
 from core.settings import settings
 from core.utils import setup_logging
 from database.utils import db, set_triggers
@@ -86,19 +87,16 @@ class Lifespan:
 
         await notify_admins(
             self.bot,
-            f"{settings.bot_msg_utils.smiles['hand']} <b><i>Startup bot"
+            f"{Smiles.hand} <b><i>Startup bot"
             f"{'. Reverse proxy mod' if settings.webhook.reverse_proxy else ''}</i></b> "
-            f"{settings.bot_msg_utils.smiles['gear']}",
+            f"{Smiles.gear}",
         )
 
     async def on_shutdown(self) -> None:
         await notify_admins(
             self.bot,
-            f"{settings.bot_msg_utils.smiles['skull']} "
-            f"<b><i>Grateful stopping bot...</i></b> "
-            f"{settings.bot_msg_utils.smiles['skull']}",
+            f"{Smiles.skull} <b><i>Grateful stopping bot...</i></b> {Smiles.skull}",
         )
-
         self.notifier.stop()
         await db.close()
         Limiter.stop()

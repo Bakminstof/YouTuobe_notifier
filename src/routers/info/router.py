@@ -3,7 +3,7 @@ from aiogram.filters import Command
 from aiogram.types import Message
 
 from controllers.message_ctrl import send_message
-from core.settings import settings
+from core.models import UtilMessages
 from filters import AdminFilter
 from routers.info.utils import send_info
 
@@ -17,7 +17,7 @@ async def admin_info(message: Message, bot: Bot) -> None:
         bot=bot,
         chat_id=message.chat.id,
         user_tg_id=message.from_user.id,
-        text=settings.bot_msg_utils.messages["admin"],
+        text=UtilMessages.admin_commands,
     )
 
 
