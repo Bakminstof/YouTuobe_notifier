@@ -18,59 +18,92 @@ logger = getLogger(__name__)
 
 
 @rate_limit("Telegram")
-async def delete_message(msg: Message | None) -> bool | None:
-    if msg is None:
-        return
-
-    try:
-        deleted = await msg.delete()
-
-    except TelegramBadRequest:
-        deleted = False
-
+async def delete_message(message: Message) -> bool:
     logger.info(
-        'Message delete %s: message_id="%s", sender_tg_id="%s", chat_id="%s". Text: %s',
-        "success" if deleted else "failure",
-        msg.message_id,
-        msg.from_user.id,
-        msg.chat.id,
-        msg.text,
+        "Try delete message. "
+        '(message_id="%s" | sender_tg_id="%s" | chat_id="%s" | text="%s")',
+        message.message_id,
+        message.from_user.id,
+        message.chat.id,
+        message.text,
     )
 
-    return deleted
+    try:
+        deleted_result = await message.delete()
+
+        logger.info(
+            "Message delete success. "
+            '(message_id="%s" | sender_tg_id="%s" | chat_id="%s" | text="%s")',
+            message.message_id,
+            message.from_user.id,
+            message.chat.id,
+            message.text,
+        )
+
+    except TelegramBadRequest as ex:
+        deleted_result = False
+
+        logger.warning(
+            "Message delete failure. Exception message: %s. "
+            '(message_id="%s" | sender_tg_id="%s" | chat_id="%s" | text="%s")',
+            ex.message,
+            message.message_id,
+            message.from_user.id,
+            message.chat.id,
+            message.text,
+        )
+
+    return deleted_result
 
 
 @rate_limit("Telegram")
 async def edit_message(
-    msg: Message | None,
+    message: Message,
     text: str,
     entities: list[MessageEntity] | None = None,
     reply_markup: InlineKeyboardMarkup | None = None,
     disable_web_page_preview: bool = False,
-) -> Message | bool | None:
-    if msg is None:
-        return
+) -> Message | None:
+    logger.info(
+        "Try edit message. "
+        '(message_id="%s" | sender_tg_id="%s" | chat_id="%s" | text="%s")',
+        message.message_id,
+        message.from_user.id,
+        message.chat.id,
+        message.text,
+    )
 
     try:
-        edited = await msg.edit_text(
+        edited_message = await message.edit_text(
             text,
             entities=entities,
             reply_markup=reply_markup,
             disable_web_page_preview=disable_web_page_preview,
         )
-    except TelegramBadRequest:
-        edited = False
 
-    logger.info(
-        'Message edit %s: message_id="%s", sender_tg_id="%s", chat_id="%s". Text: %s',
-        "success" if edited else "failure",
-        msg.message_id,
-        msg.from_user.id,
-        msg.chat.id,
-        msg.text,
-    )
+        logger.info(
+            "Message edit success. "
+            '(message_id="%s" | sender_tg_id="%s" | chat_id="%s" | text="%s")',
+            message.message_id,
+            message.from_user.id,
+            message.chat.id,
+            message.text,
+        )
 
-    return edited
+    except TelegramBadRequest as ex:
+        edited_message = None
+
+        logger.warning(
+            "Message edit failure. Exception message: %s. "
+            '(message_id="%s" | sender_tg_id="%s" | chat_id="%s" | text="%s")',
+            ex.message,
+            message.message_id,
+            message.from_user.id,
+            message.chat.id,
+            message.text,
+        )
+
+    return edited_message
 
 
 @rate_limit("Telegram")
@@ -84,10 +117,15 @@ async def send_message(
     disable_web_page_preview: bool = False,
     timeout: int = settings.requests_timeout,
 ) -> Message | None:
-    msg = None
+    logger.info(
+        'Try send message. (user_tg_id="%s" | chat_id="%s" | text="%s")',
+        user_tg_id,
+        chat_id,
+        text,
+    )
 
     try:
-        msg = await bot.send_message(
+        message = await bot.send_message(
             chat_id=chat_id,
             text=text,
             entities=entities,
@@ -96,36 +134,36 @@ async def send_message(
             request_timeout=timeout,
         )
 
+        logger.info(
+            "Send message success. "
+            '(message_id="%s" | user_tg_id="%s" | chat_id="%s" | text="%s")',
+            message.message_id,
+            user_tg_id,
+            chat_id,
+            text,
+        )
+
+        return message
+
     except (TelegramUnauthorizedError, TelegramForbiddenError, TelegramBadRequest):
         async with get_profile_db() as profile_db:
             user_profile = await profile_db.get_by_tg_id(user_tg_id)
 
+            to_update = {"id": user_profile.id, "status": Status.blocked}
+            await profile_db.update([to_update])
+
         logger.warning(
-            'Bot blocked by user: username="%s", user_tg_id="%s"',
+            'Bot blocked by user. (username="%s" | user_tg_id="%s")',
             user_profile.username,
             user_tg_id,
         )
 
-        async with get_profile_db() as profile_db:
-            to_update = {"id": user_profile.id, "status": Status.blocked}
-            await profile_db.update([to_update])
-
     except TelegramNetworkError as ex:
         logger.warning(
-            'Network error: message="%s", url=%s, method="%s", label="%s"',
+            "Telegram network error. Exception message: %s. "
+            '(url=%s | method="%s" | label="%s")',
             ex.message,
             ex.url,
             ex.method,
             ex.label,
         )
-
-    logger.info(
-        'Send message %s: message_id="%s", user_tg_id="%s", chat_id="%s"%s',
-        "success" if msg else "failure",
-        msg.message_id if msg else None,
-        user_tg_id,
-        chat_id,
-        f". Text: {msg.text}" if msg else "",
-    )
-
-    return msg
