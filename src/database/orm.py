@@ -101,13 +101,7 @@ class ChannelsDatabase(PaginationMixin):
             load_only(Channel.id, Channel.name, Channel.url, Channel.canonical_url),
             noload(Channel.profile_associations),
         ]
-        stmt = (
-            select(Channel)
-            .options(*options)
-            .where(*where)
-            .order_by(Channel.name)
-            .limit(1)
-        )
+        stmt = select(Channel).options(*options).where(*where).limit(1)
         result = await self.async_session.scalar(stmt)
         await self.async_session.commit()
         return result
