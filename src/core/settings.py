@@ -13,6 +13,8 @@ from log.settings import LoggingSettings
 
 BASE_DIR = Path(__file__).parent.parent
 ENV_DIR = BASE_DIR / "env"
+CERTS_DIR = BASE_DIR.parent / "certs"
+
 
 environ.setdefault(
     "ENV_FILE",
@@ -111,14 +113,14 @@ class WebhookSettings(BaseModel):
     @cached_property
     def public_key(cls) -> FSInputFile | None:
         if cls.active:
-            return FSInputFile(BASE_DIR.parent / "certs" / "notif-bot-public.pem")
+            return FSInputFile(CERTS_DIR / "notif-bot-public.pem")
         return None
 
     @computed_field
     @cached_property
     def private_key(cls) -> FSInputFile | None:
         if cls.active:
-            return FSInputFile(BASE_DIR.parent / "certs" / "notif-bot-private.pem")
+            return FSInputFile(CERTS_DIR / "notif-bot-private.pem")
         return None
 
     @field_validator(
