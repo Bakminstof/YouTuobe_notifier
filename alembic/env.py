@@ -24,9 +24,7 @@ if config.config_file_name is not None:
 target_metadata = Base.metadata
 
 represented_password = (
-    quote_plus(settings.db.password).replace("%", "%%")
-    if settings.db.password
-    else None
+    quote_plus(settings.db.password).replace("%", "%%") if settings.db.password else None
 )
 
 url = URL.create(
