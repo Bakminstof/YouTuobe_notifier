@@ -7,7 +7,6 @@ from aiogram.types.bot_command import BotCommand
 from apps.notifier.main import Notifier
 from core.models import Smiles
 from core.settings import settings
-from core.utils import setup_logging
 from database.utils import db, set_triggers
 from routers.admin.utils import notify_admins
 from utils.token_bucket import Limiter
@@ -54,8 +53,6 @@ class Lifespan:
         logger.info("Set bot commands: %s", commands)
 
     async def on_startup(self) -> None:
-        setup_logging()
-
         Limiter.start()
 
         await db.init(
