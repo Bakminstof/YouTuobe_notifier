@@ -1,4 +1,4 @@
-from enum import StrEnum
+from enum import StrEnum, auto
 
 from pydantic import BaseModel, ConfigDict
 from sqlalchemy import ScalarResult
@@ -64,3 +64,10 @@ class UtilMessages(StrEnum):
         f"{Smiles.gear} <b>Команды администрирования:</b> {Smiles.gear}\n\n"
         "/users - <i>список пользователей</i>\n\n"
     )
+
+
+class Status(StrEnum):
+    active = auto()
+    blocked = auto()
+    banned = auto()
+    deleted = auto()

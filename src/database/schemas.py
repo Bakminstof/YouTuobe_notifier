@@ -7,7 +7,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database.base import Base
 from database.mixins import AuditMixin
-from database.tps import Status, str_200
+from database.tps import str_200
+from core.models import Status
 
 
 class Profile(Base, AuditMixin):

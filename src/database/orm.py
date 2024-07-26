@@ -3,10 +3,9 @@ from typing import Any, Sequence
 from sqlalchemy import delete, select
 from sqlalchemy.orm import load_only, noload
 
-from core.models import PaginationResultModel
+from core.models import PaginationResultModel, Status
 from database.mixins import CRUDMixin, PaginationMixin
 from database.schemas import Channel, Profile, ProfileChannelAssociation, Stream, Video
-from database.tps import Status
 
 
 class ProfileDatabase(PaginationMixin):

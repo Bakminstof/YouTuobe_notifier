@@ -10,7 +10,7 @@ from aiogram.exceptions import (
 from aiogram.types import InlineKeyboardMarkup, Message, MessageEntity
 
 from core.settings import settings
-from database.tps import Status
+from core.models import Status
 from database.utils import get_profile_db
 from utils.token_bucket import rate_limit
 

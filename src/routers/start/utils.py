@@ -3,7 +3,7 @@ from logging import getLogger
 from aiogram.types import User
 
 from database.schemas import Profile
-from database.tps import Status
+from core.models import Status
 from database.utils import get_profile_db
 
 logger = getLogger(__name__)
