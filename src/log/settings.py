@@ -31,7 +31,7 @@ class LoggingSettings(BaseModel):
     rotating_file_handler: bool = False
     logs_dir: str | Path = "logs"
     filename: str | Path = "app.log"
-    max_bytes: int = 262_144_000
+    max_bytes: int = 10_485_760
     backup_count: int = 20
 
     @field_validator("loglevel", mode="before")
