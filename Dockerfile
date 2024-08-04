@@ -14,7 +14,6 @@ COPY poetry.lock pyproject.toml ./
 RUN poetry install --without dev
 
 RUN mkdir db
-RUN chmod 766 /db
 
 WORKDIR /src
 
