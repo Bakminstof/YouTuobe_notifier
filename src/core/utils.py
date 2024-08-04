@@ -72,7 +72,8 @@ def __setup_request_handler(dispatcher: Dispatcher, bot: Bot, app: Application) 
     )
 
     webhook_requests_handler.register(
-        app, path=settings.webhook.path(bot_token=settings.bot_token)
+        app,
+        path=settings.webhook.path(bot_token=settings.bot_token),
     )
 
 
