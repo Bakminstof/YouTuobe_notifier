@@ -101,6 +101,8 @@ class WebhookSettings(BaseModel):
 
     active: bool = False
 
+    prefix: str = "webhook"
+
     host: str | None = None
     port: int | str | None = None
 
@@ -113,14 +115,14 @@ class WebhookSettings(BaseModel):
     @cached_property
     def public_key(cls) -> FSInputFile | None:
         if cls.active:
-            return FSInputFile(CERTS_DIR / "notif-bot-public.pem")
+            return FSInputFile(CERTS_DIR / "telegram-public.pem")
         return None
 
     @computed_field
     @cached_property
     def private_key(cls) -> FSInputFile | None:
         if cls.active:
-            return FSInputFile(CERTS_DIR / "notif-bot-private.pem")
+            return FSInputFile(CERTS_DIR / "telegram-private.pem")
         return None
 
     @field_validator(
@@ -158,7 +160,7 @@ class WebhookSettings(BaseModel):
 
     @classmethod
     def path(cls, bot_token: str) -> str:
-        return f"/webhook/{bot_token}"
+        return f"/{cls.prefix}/{bot_token}"
 
     def url(self, bot_token: str) -> str:
         return f"{self.host}:{self.port}{self.path(bot_token)}"
