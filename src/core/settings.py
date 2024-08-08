@@ -158,9 +158,8 @@ class WebhookSettings(BaseModel):
             return f"https://{value}"
         return None
 
-    @classmethod
-    def path(cls, bot_token: str) -> str:
-        return f"/{cls.prefix}/{bot_token}"
+    def path(self, bot_token: str) -> str:
+        return f"/{self.prefix}/{bot_token}"
 
     def url(self, bot_token: str) -> str:
         return f"{self.host}:{self.port}{self.path(bot_token)}"
