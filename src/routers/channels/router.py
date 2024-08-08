@@ -9,7 +9,6 @@ from aiogram.types import CallbackQuery, Message
 
 from controllers.message_ctrl import delete_message, edit_message, send_message
 from core.models import Smiles
-from core.settings import settings
 from database.utils import get_channel_db
 from keyboards.inline.channel_callbacks import ChannelCallback
 from routers.channels.utils import (
@@ -81,7 +80,7 @@ async def add_channel(message: Message, bot: Bot, state: FSMContext) -> None:
 
         if channel is None:
             await edit_message(
-                msg=wait_mes,
+                message=wait_mes,
                 text=f"Не могу найти канал {Smiles.sad_face}. "
                 f"Попробуйте другую ссылку",
             )

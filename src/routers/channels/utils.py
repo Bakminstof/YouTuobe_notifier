@@ -122,7 +122,7 @@ async def show_channels(
 
 async def limit_channels(message_to_edit: Message) -> None:
     await edit_message(
-        msg=message_to_edit,
+        message=message_to_edit,
         text=f"{Smiles.stop} " f"У вас лимит подписок {Smiles.stop}",
     )
 
@@ -134,7 +134,7 @@ async def channel_subscribe(
     state: FSMContext,
 ) -> None:
     await edit_message(
-        msg=message,
+        message=message,
         text=f"<b><i>{Smiles.green_ok}{message.text[1:]}</i></b>",
         reply_markup=unsub_keyboard,
         disable_web_page_preview=True,
@@ -163,7 +163,7 @@ async def channel_unsubscribe(
     state: FSMContext,
 ) -> None:
     await edit_message(
-        msg=message,
+        message=message,
         text=f"<b><i>{Smiles.no}{message.text[1:]}</i></b>",
         reply_markup=sub_keyboard,
         disable_web_page_preview=True,
