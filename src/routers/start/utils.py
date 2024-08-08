@@ -16,7 +16,7 @@ async def check_user(tg_user: User) -> None:
     if not user_profile:
         new_user_profile = Profile(
             tg_id=tg_user.id,
-            username=tg_user.username,
+            username=tg_user.username if tg_user.usernamee else tg_user.first_name,
             first_name=tg_user.first_name,
             last_name=tg_user.last_name,
         )
